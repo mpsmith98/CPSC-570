@@ -144,6 +144,11 @@ method CommitAllPending()
 
   committed := startCommitted + newlyCommitted;
   reservedLog := [];
+  assert startCommitted == old(committed);
+  assert newlyCommitted == PendingSum(pending[..|pending|]);
+  assert pending[..|pending|] == pending;
+  assert newlyCommitted == PendingSum(pending);
+  assert committed == old(committed) + PendingSum(old(reservedLog));
 }
 
 
