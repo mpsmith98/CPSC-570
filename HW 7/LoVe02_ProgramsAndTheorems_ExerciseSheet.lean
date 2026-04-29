@@ -63,11 +63,11 @@ def someEnv : String → ℤ
 
 #eval eval someEnv (AExp.var "x")   -- expected: 3
 -- invoke `#eval` here
-#eval eval someEnv (AExp.add 2 3)
-#eval eval someEnv (AExp.sub 7 4)
-#eval eval someEnv (AExp.mul 5 3)
-#eval eval someEnv (AExp.div 12 4)
-#eval eval someEnv (AExp.div 6 0)
+#eval eval someEnv (AExp.add (AExp.num 2) (AExp.num 3))
+#eval eval someEnv (AExp.sub (AExp.num 7) (AExp.num 4))
+#eval eval someEnv (AExp.mul (AExp.num 5) (AExp.num 3))
+#eval eval someEnv (AExp.div (AExp.num 12) (AExp.num 4))
+-- #eval eval someEnv (AExp.div (AExp.num 6) (AExp.num 0))
 #eval eval someEnv (AExp.num 9)
 
 
@@ -85,8 +85,8 @@ def simplify : AExp → AExp
   | AExp.sub e₁ (AExp.num 0) => simplify e₁
   | AExp.mul (AExp.num 1) e₂ => simplify e₂
   | AExp.mul e₁ (AExp.num 1) => simplify e₁
-  | AExp.mul (AExp.num 0) e₂ => simplify 0
-  | AExp.mul e₁ (AExp.num 0) => simplify 0
+  | AExp.mul (AExp.num 0) e₂ => (AExp.num 0)
+  | AExp.mul e₁ (AExp.num 0) => (AExp.num 0)
   | AExp.div e₁ (AExp.num 1) => simplify e₁
   -- catch-all cases below
   | AExp.num i               => AExp.num i
@@ -131,11 +131,11 @@ Try to give meaningful names to your theorems. Also, make sure to state the
 second property as generally as possible, for arbitrary types. -/
 
 -- enter your theorem statements here
-theorem MapIdentityFunction (xs : List α) :
+theorem MapIdentityFunction {α : Type} (xs : List α) :
   map (fun x ↦ x) xs = xs :=
   sorry
 
-theorem Composition (xs : List α) (f : α → β) (g : β → γ):
+theorem MapFunctionComposition {α β γ : Type} (xs : List α) (f : α → β) (g : β → γ):
   map (fun x ↦ g (f x)) xs = map g (map f xs) :=
   sorry
 
